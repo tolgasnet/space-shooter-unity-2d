@@ -6,7 +6,6 @@ public class MeteorController : MonoBehaviour
 {
     public Animator explosion;
     public Rigidbody2D player;
-    private Vector3 offSet = new Vector3(5f, 5f, 0);
 
     private void OnTriggerEnter2D(Collider2D other)
     {

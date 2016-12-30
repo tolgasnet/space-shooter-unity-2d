@@ -12,7 +12,8 @@ public class PlayerController : MonoBehaviour
     public Animator explosion;
     public Rigidbody2D bullet;
     private Rigidbody2D body;
-    private Vector3 offSet = new Vector3(11f, 0, 0);
+    private Vector3 offSet = new Vector3(0, 15f, 0);
+    private bool canMove = true;
 
     // Use this for initialization
     private void Start ()
@@ -23,10 +24,17 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate ()
     {
-        float horizontalMove = Input.GetAxis("Horizontal");
-        float verticalMove = Input.GetAxis("Vertical");
-        var movement = new Vector2(horizontalMove, verticalMove);
-        body.velocity = movement * speed;
+        if(canMove)
+        {
+            float horizontalMove = Input.GetAxis("Horizontal");
+            float verticalMove = Input.GetAxis("Vertical");
+            var movement = new Vector2(horizontalMove, verticalMove);
+            body.velocity = movement * speed;
+        }
+        else
+        {
+            body.velocity = new Vector2(0,0);
+        }
     }
 
     private void Update()
@@ -58,6 +66,7 @@ public class PlayerController : MonoBehaviour
         CreateExplosion(gameObject, explosionCount: 3);
 
         gameObject.transform.position += offSet;
+        canMove = false;
 
         StartCoroutine(RespawnPlayer());
     }
@@ -66,6 +75,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
         gameObject.transform.position -= offSet;
+        canMove = true;
         Debug.Log("respawn");
     }
 
